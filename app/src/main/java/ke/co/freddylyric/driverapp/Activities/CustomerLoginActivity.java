@@ -70,13 +70,18 @@ public class CustomerLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = Objects.requireNonNull(mEmail.getText()).toString();
                 final String password = Objects.requireNonNull(mPassword.getText()).toString();
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(CustomerLoginActivity.this, task -> {
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(CustomerLoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+
                     if(!task.isSuccessful()){
                         Toast.makeText(CustomerLoginActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
-                    }else{
+                    }else {
                         String user_id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-                        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
+                        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customer").child(user_id);
                         current_user_db.setValue(true);
+                    }
                     }
                 });
             }

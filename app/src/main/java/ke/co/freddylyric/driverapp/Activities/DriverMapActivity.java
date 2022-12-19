@@ -167,8 +167,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
 
 
-       /* Toolbar toolbar = findViewById(R.id.toolbar1);
-        setActionBar(toolbar);*/
+       Toolbar toolbar = findViewById(R.id.toolbar1);
+        setActionBar(toolbar);
 
         mCustomerInfo = findViewById(R.id.customerInfo);
 

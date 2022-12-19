@@ -1,7 +1,5 @@
 package ke.co.freddylyric.driverapp.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -12,16 +10,14 @@ import android.os.Bundle;
 import ke.co.freddylyric.driverapp.MainActivity;
 import ke.co.freddylyric.driverapp.R;
 
-import android.*;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.Build;
 import android.os.Looper;
-import android.provider.ContactsContract;
+
 import androidx.annotation.NonNull;
 /*import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -30,17 +26,13 @@ import android.os.Bundle;*/
 //import android.support.v4.app.ActivityCompat;
 //import android.support.v4.content.ContextCompat;
 //import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,21 +43,16 @@ import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.GeoQueryEventListener;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -75,18 +62,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 //import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class CustomerMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -287,7 +271,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
                      * update driver ref with database data using hashmap*/
                     DatabaseReference driverRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverFoundID).child("customerRequest");
                     String customerId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-                    HashMap map = new HashMap();
+                    HashMap<String, Object> map = new HashMap<String, Object>();
                     map.put("customerRideId", customerId);
                     map.put("destination", destination);
                     map.put("destinationLat", destinationLatLng.latitude);
@@ -419,13 +403,13 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists() && dataSnapshot.getChildrenCount()>0){
                     dataSnapshot.child("name");
-                    mDriverName.setText(dataSnapshot.child("name").getValue().toString());
+                    mDriverName.setText(Objects.requireNonNull(dataSnapshot.child("name").getValue()).toString());
                     dataSnapshot.child("phone");
-                    mDriverPhone.setText(dataSnapshot.child("phone").getValue().toString());
+                    mDriverPhone.setText(Objects.requireNonNull(dataSnapshot.child("phone").getValue()).toString());
                     dataSnapshot.child("car");
-                    mDriverCar.setText(dataSnapshot.child("car").getValue().toString());
+                    mDriverCar.setText(Objects.requireNonNull(dataSnapshot.child("car").getValue()).toString());
                     if(dataSnapshot.child("profileImageUrl").getValue()!=null){
-                        Glide.with(getApplication()).load(dataSnapshot.child("profileImageUrl").getValue().toString()).into(mDriverProfileImage);
+                        Glide.with(getApplication()).load(Objects.requireNonNull(dataSnapshot.child("profileImageUrl").getValue()).toString()).into(mDriverProfileImage);
                     }
 
                     int ratingSum = 0;
@@ -518,10 +502,16 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        mLocationRequest = new LocationRequest();
+        /*mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
         mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);*/
+
+        mLocationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
+                .setWaitForAccurateLocation(false)
+                .setMinUpdateIntervalMillis(1000)
+                .setMaxUpdateDelayMillis(3000)
+                .build();
 
         if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -620,7 +610,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
             public void onKeyEntered(String key, GeoLocation location) {
 
                 for(Marker markerIt : markers){
-                    if(markerIt.getTag().equals(key))
+                    if(Objects.equals(markerIt.getTag(), key))
                         return;
                 }
 
