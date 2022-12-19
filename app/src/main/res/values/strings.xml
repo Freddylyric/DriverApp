@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Drivio</string>
     <string name="slogan">Welcome to</string>
+    <string name="title_activity_driver_map">DriverMapActivity</string>
 
 
 </resources>
