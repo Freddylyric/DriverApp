@@ -15,18 +15,22 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 import ke.co.freddylyric.driverapp.R;
 
 public class CustomerLoginActivity extends AppCompatActivity {
 
-    private EditText mEmail, mPassword;
+    private TextInputEditText mEmail, mPassword;
     private Button mLogin, mRegistration;
+
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
@@ -37,40 +41,42 @@ public class CustomerLoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user!=null){
-                    Intent intent = new Intent(CustomerLoginActivity.this, CustomerMapActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
+        firebaseAuthListener = firebaseAuth -> {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if(user!=null){
+                Intent intent = new Intent(CustomerLoginActivity.this, CustomerMapActivity.class);
+                startActivity(intent);
+                finish();
             }
         };
 
-        mEmail = (EditText) findViewById(R.id.email);
-        mPassword = (EditText) findViewById(R.id.password);
+        mEmail = findViewById(R.id.email);
+        mPassword = findViewById(R.id.password);
 
-        mLogin = (Button) findViewById(R.id.login);
+        mLogin = findViewById(R.id.login);
         mRegistration = (Button) findViewById(R.id.registration);
+
+      /*  mRegistration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerLoginActivity.this, CustomerRegistrationActivity.class);
+                startActivity(intent);
+
+            }
+        });*/
 
         mRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = mEmail.getText().toString();
-                final String password = mPassword.getText().toString();
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(CustomerLoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(!task.isSuccessful()){
-                            Toast.makeText(CustomerLoginActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
-                        }else{
-                            String user_id = mAuth.getCurrentUser().getUid();
-                            DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
-                            current_user_db.setValue(true);
-                        }
+                final String email = Objects.requireNonNull(mEmail.getText()).toString();
+                final String password = Objects.requireNonNull(mPassword.getText()).toString();
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(CustomerLoginActivity.this, task -> {
+                    if(!task.isSuccessful()){
+                        Toast.makeText(CustomerLoginActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
+                    }else{
+                        String user_id = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+                        DatabaseReference current_user_db = FirebaseDatabase.getInstance().getReference().child("Users").child("Customers").child(user_id);
+                        current_user_db.setValue(true);
                     }
                 });
             }
@@ -81,8 +87,8 @@ public class CustomerLoginActivity extends AppCompatActivity {
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = mEmail.getText().toString();
-                final String password = mPassword.getText().toString();
+                final String email = Objects.requireNonNull(mEmail.getText()).toString();
+                final String password = Objects.requireNonNull(mPassword.getText()).toString();
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(CustomerLoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

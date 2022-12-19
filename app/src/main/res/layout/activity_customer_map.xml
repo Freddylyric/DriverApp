@@ -1,13 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.CustomerMapActivity" >
+    tools:context=".Activities.CustomerMapActivity"
+    android:orientation="horizontal">
+
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        />
 
 
     <fragment
+
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
@@ -26,7 +32,12 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/logout"
                 android:text="logout"/>
-
+            <Button
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/history"
+                android:text="history"/>
             <Button
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -102,15 +113,19 @@
                     android:stepSize="0.1"/>
             </LinearLayout>
         </LinearLayout>
-
+        <LinearLayout
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <Button
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="call driver"
+                android:text="Call Driver"
                 android:id="@+id/request"/>
-
+        </LinearLayout>
     </LinearLayout>
 
 

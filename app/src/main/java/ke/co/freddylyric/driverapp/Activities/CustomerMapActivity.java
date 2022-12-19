@@ -1,6 +1,7 @@
 package ke.co.freddylyric.driverapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -43,6 +44,7 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.firebase.geofire.GeoFire;
@@ -167,12 +169,16 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
         mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
 
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setActionBar(toolbar);
+
+
         Button mLogout = (Button) findViewById(R.id.logout);
         mRequest = (Button) findViewById(R.id.request);
-        Button mSettings = (Button) findViewById(R.id.settings);
+       Button mSettings = (Button) findViewById(R.id.settings);
         //Button mHistory = (Button) findViewById(R.id.history);
 
-        mLogout.setOnClickListener(new View.OnClickListener() {
+       mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -219,7 +225,7 @@ public class CustomerMapActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
-      /*  mHistory.setOnClickListener(new View.OnClickListener() {
+        /*mHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CustomerMapActivity.this, HistoryActivity.class);

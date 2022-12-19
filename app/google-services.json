@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "209295837543",
+    "firebase_url": "https://driverapp-bbc36-default-rtdb.firebaseio.com",
     "project_id": "driverapp-bbc36",
     "storage_bucket": "driverapp-bbc36.appspot.com"
   },

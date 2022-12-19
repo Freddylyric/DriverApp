@@ -1,32 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.CustomerLoginActivity"
-    android:orientation="vertical">
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="email"
-        android:inputType="textEmailAddress"
-        android:autofillHints="emailAddress"
-        android:id="@+id/email"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="password"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#fff"
+    tools:context=".Activities.CustomerLoginActivity">
 
-        android:autofillHints="password"
-        android:id="@+id/password"/>
-    <Button
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="login"
-        android:id="@+id/login"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="registration"
-        android:id="@+id/registration"/>
-</LinearLayout>
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        android:background="#fff"
+        android:elevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+
+            <TextView
+
+
+                android:text="Login"
+                android:textColor="#000"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="20dp">
+
+
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextInputLayoutStyle"
+                    app:boxStrokeColor="#000"
+                    app:hintTextAppearance="@android:color/black"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Email"
+                        android:inputType="textEmailAddress"
+                        android:drawablePadding="10dp"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textColorHint="#000"
+                        android:drawableStart="@drawable/ic_email"/>
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TextInputLayoutStyle"
+                    app:boxStrokeColor="#000"
+                    app:hintTextAppearance="@android:color/black"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Password"
+                        android:inputType="textPassword"
+                        android:drawablePadding="10dp"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textColorHint="#000"
+                        android:drawableStart="@drawable/ic_lock"/>
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/forgotPassword"
+                    android:text="Forgot Password?"
+                    android:textColor="#000"
+                    android:gravity="end"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+                <Button
+                    android:id="@+id/login"
+                    android:text="Sign In Now"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    android:background="@drawable/buttons_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/registration"
+                    android:text="Don't have an account? Sign Up"
+                    android:layout_marginTop="15dp"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/buttons_background"
+                    android:layout_height="wrap_content"/>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</ScrollView>
